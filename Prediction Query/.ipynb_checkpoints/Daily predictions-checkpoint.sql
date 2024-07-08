@@ -1,9 +1,9 @@
-create  table scratch.riders.prediction_query_day_level as
 
 SET start_date =  dateadd('month', -3, date_trunc('month',  current_date())) ;--2024-04-01;
 SET end_date   = LAST_DAY(dateadd('month', -1, date_trunc('month',  current_date())), MONTH);
 SET current_month =DATE_TRUNC('MONTH', CURRENT_DATE) ;--2024-07-01
 
+create  table scratch.riders.prediction_query_day_level as
 
 with base as
 (
@@ -282,4 +282,5 @@ and base.ORDER_MONTH =last_3_days.ORDER_MONTH
   
 )
 select * from summary where order_month =$current_month; -- remove the data prior to this
+
 
