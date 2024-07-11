@@ -1,6 +1,6 @@
 
 
-create table scratch.riders.final_prediction_feat_set as
+create or replace table scratch.riders.final_prediction_feat_set as
 with base as
 (
 select 
@@ -9,13 +9,11 @@ select
  ,city_name
  ,CAST(EXTRACT(HOUR FROM START_OF_PERIOD_LOCAL) AS INT) as hour_of_day
  ,DAYNAME ( START_OF_PERIOD_LOCAL) as week_of_Day
- ,round(COALESCE(SUM(RET_MINS_SUM ), 0) / NULLIF(COALESCE(SUM(ret_mins_cnt ), 0), 0),2) AS RET_AVG -- remove this in future 
 from 
 PRODUCTION.AGGREGATE.AGG_ZONE_DELIVERY_METRICS_HOURLY
 where
 date (start_of_period_local) between   current_date-10 and current_date
 and is_within_zone_hours =true
-and CNT_ERAT >0 
  group by 1,2,3,4
 )
 
